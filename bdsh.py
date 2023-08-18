@@ -97,6 +97,17 @@ def interactive_shell():
             sys.exit()
         if command == "exit" or command == "quit":
             sys.exit()
+        
+        elif command.startswith("cd "):
+            # Handle the cd command separately
+            new_dir = command[3:]
+            try:
+                os.chdir(new_dir)
+                log_command(command, "success")
+            except OSError as e:
+                log_command(command, "failed")
+                print("Error: %s" % e)
+        
         elif command:
             if not entire_command_scanner(command):
                 if command_allowed(command.split(" ", 1)[0]):
